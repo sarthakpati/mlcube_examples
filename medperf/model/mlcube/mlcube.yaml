@@ -23,7 +23,7 @@ tasks:
   infer:
     parameters:
       inputs: {
-        data_path: {type: directory}, # Required. Where to find the data to run predictions on.  MUST be a folder
+        data_path: {type: directory, default: data}, # Required. Where to find the data to run predictions on.  MUST be a folder
         parameters_file: parameters.yaml, # Required. Helper file to provide additional arguments. Value MUST be parameters.yaml
       }
       outputs: {
