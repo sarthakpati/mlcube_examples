@@ -10,7 +10,7 @@ platform:
 
 docker:
   # Image name.
-  image: fets_inference
+  image: cbica/fets_inference:latest
   # Docker build context relative to $MLCUBE_ROOT. Default is `build`.
   build_context: "../project"
   # Docker file name within docker build context, default is `Dockerfile`.
