@@ -4,7 +4,7 @@ authors:
  - {name: "MLCommons Medical Working Group"}
 
 platform:
-  accelerator_count: 1
+  accelerator_count: 0
 
 docker:
   # Image name.
@@ -21,8 +21,9 @@ tasks:
   infer:
     parameters:
       inputs: {
-        data_path: {type: directory}, # Required. Where to find the data to run predictions on. 
+        data_path: {type: directory}, # Required. Where to find the data to run predictions on.  MUST be a folder
+        parameters_file: parameters.yaml, # Required. Helper file to provide additional arguments. Value MUST be parameters.yaml
       }
       outputs: {
-        output_path: {type: directory} # Required. Where to store prediction artifacts. MUST be a folder
+        output_path: {type: directory, default: predictions} # Required. Where to store prediction artifacts. MUST be a folder
       }

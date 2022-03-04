@@ -29,6 +29,7 @@ def exec_python(cmd: str) -> None:
 @app.command("infer")
 def infer(
     data_path: str = typer.Option(..., "--data_path"), # FeTS_CLI writes the output in the same path as data_path
+    params_file: str = typer.Option(..., "--parameters_file"), # FeTS_CLI does not need this
     out_path: str = typer.Option(..., "--output_path") # FeTS_CLI writes the output in the same path as data_path
 ):
     """infer task command. This is what gets executed when we run:
