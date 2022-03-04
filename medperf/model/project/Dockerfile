@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM pytorch:1.9.0-cuda10.2-cudnn7-runtime
 MAINTAINER MLPerf MLBox Working Group
 
 RUN apt-get update && \
@@ -12,18 +12,27 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
 RUN apt-get install python3 -y
 
+RUN apt-get install -y --no-install-recommends \ 
+    python3.6 \
+    python3.6-venv \
+    python3.6-dev \
+    python3-setuptools \
+    wget \
+    zip \
+    unzip
+
 RUN apt-get install python3-pip -y
 
-COPY ./requirements.txt project/requirements.txt 
+RUN wget https://fets.projects.nitrc.org/FeTS_0.0.7_Installer.bin && chmod +x ./FeTS_*_Installer.bin
 
-RUN pip3 install --upgrade pip
+RUN yes | ./FeTS_${version}_Installer.bin --target ./fets_installation
 
-RUN pip3 install --no-cache-dir -r project/requirements.txt
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./fets_installation/squashfs-root/usr/lib
+
+RUN export PATH=$PATH:./fets_installation/squashfs-root/usr/bin
 
 ENV LANG C.UTF-8
 
-COPY . /project
-
-WORKDIR /project
+WORKDIR ./fets_installation/squashfs-root/usr/bin
 
 ENTRYPOINT ["python3", "mlcube.py"]
