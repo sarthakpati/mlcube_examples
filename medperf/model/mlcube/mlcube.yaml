@@ -1,12 +1,12 @@
 name: Medperf FeTS Inference
 description: FeTS MLCube to perform inference on brain tumor data.
 authors:
- - {name: "Sarthak Pati"}
- - {name: "Ujjwal Baid"}
- - {name: "Spyridon Bakas"}
+  - {name: "Sarthak Pati"}
+  - {name: "Ujjwal Baid"}
+  - {name: "Spyridon Bakas"}
 
 platform:
-  accelerator_count: 0
+  accelerator_count: 1
 
 docker:
   # Image name.
