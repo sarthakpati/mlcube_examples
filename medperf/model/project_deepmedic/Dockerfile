@@ -29,8 +29,10 @@ RUN yes | ./FeTS_${version}_Installer.bin --target ./fets_installation
 
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./fets_installation/squashfs-root/usr/lib
 
+RUN export PATH=$PATH:./fets_installation/squashfs-root/usr/bin
+
 ENV LANG C.UTF-8
 
 WORKDIR ./fets_installation/squashfs-root/usr/bin
 
-ENTRYPOINT FeTS_CLI
+ENTRYPOINT ["python3", "mlcube.py"]
