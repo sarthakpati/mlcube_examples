@@ -1,14 +1,16 @@
-name: Hello-World Medperf Model MLCube
-description: MLCommons demonstration MLCube for building models for MedPerf
+name: Medperf FeTS Inference
+description: FeTS MLCube to perform inference on brain tumor data.
 authors:
- - {name: "MLCommons Medical Working Group"}
+ - {name: "Sarthak Pati"}
+ - {name: "Ujjwal Baid"}
+ - {name: "Spyridon Bakas"}
 
 platform:
   accelerator_count: 0
 
 docker:
   # Image name.
-  image: medical-hello-world
+  image: fets_inference
   # Docker build context relative to $MLCUBE_ROOT. Default is `build`.
   build_context: "../project"
   # Docker file name within docker build context, default is `Dockerfile`.
