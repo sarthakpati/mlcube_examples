@@ -12,6 +12,8 @@ import yaml
 import typer
 import subprocess
 
+from distutils.dir_util import copy_tree
+
 app = typer.Typer()
 
 def exec_python(cmd: str) -> None:
@@ -26,26 +28,19 @@ def exec_python(cmd: str) -> None:
 
 @app.command("infer")
 def infer(
-    data_path: str = typer.Option(..., "--data_path"),
-    params_file: str = typer.Option(..., "--parameters_file"),
-    greetings: str = typer.Option(..., "--greetings"),
-    out_path: str = typer.Option(..., "--output_path")
+    data_path: str = typer.Option(..., "--data_path"), # FeTS_CLI writes the output in the same path as data_path
+    out_path: str = typer.Option(..., "--output_path") # FeTS_CLI writes the output in the same path as data_path
 ):
     """infer task command. This is what gets executed when we run:
     `mlcube run infer`
 
     Args:
         data_path (str): Location of the data to run inference with. Required for Medperf Model MLCubes.
-        params_file (str): Location of the parameters.yaml file. Required for Medperf Model MLCubes.
-        greetings (str): Example of an extra parameter that uses `additional_files`.
         out_path (str): Location to store prediction results. Required for Medperf Model MLCubes.
     """
-    with open(params_file, "r") as f:
-        params = yaml.safe_load(f)
+    copy_tree(data_path, out_path) # FeTS_CLI writes the output in the same path as data_path
 
-    names_file = os.path.join(data_path, "names.csv")
-    uppercase = params["uppercase"]
-    cmd = f"python3 app.py --names={names_file} --uppercase={uppercase} --greetings={greetings} --out={out_path}"
+    cmd = f"FeTS_CLI -a deepMedic -g 1 -t 0 -d={out_path}"
     exec_python(cmd)
 
 @app.command("hotfix")
