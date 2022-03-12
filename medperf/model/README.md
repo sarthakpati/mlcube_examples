@@ -24,7 +24,7 @@ This template was built so it can work out-of-the-box. Follow the next steps:
    ```
 5. execute the `infer` task with mlcube
    ```bash
-   mlcube run --task=infer
+   mlcube run --task=infer -Pdocker.build_strategy=auto
    ```
 6. check resulting predictions
    ```bash
