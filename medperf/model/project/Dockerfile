@@ -23,9 +23,11 @@ RUN apt-get install -y --no-install-recommends \
 
 RUN apt-get install python3-pip -y
 
-RUN wget https://fets.projects.nitrc.org/FeTS_0.0.7_Installer.bin && chmod +x ./FeTS_*_Installer.bin
+ARG FETS_VERSION=0.0.7
 
-RUN yes | ./FeTS_${version}_Installer.bin --target ./fets_installation
+RUN wget https://fets.projects.nitrc.org/FeTS_${FETS_VERSION}_Installer.bin && chmod +x ./FeTS_*_Installer.bin
+
+RUN yes | ./FeTS_${FETS_VERSION}_Installer.bin --target ./fets_installation
 
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./fets_installation/squashfs-root/usr/lib
 
