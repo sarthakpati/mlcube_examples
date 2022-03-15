@@ -39,6 +39,4 @@ COPY . /project
 
 WORKDIR /project
 
-WORKDIR /fets_installation/squashfs-root/usr/bin
-
 ENTRYPOINT ["python3", "mlcube.py"]
