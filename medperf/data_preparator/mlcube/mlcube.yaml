@@ -20,12 +20,12 @@ tasks:
   # expected by the model cubes. 
     parameters:
       inputs: {
-        data_path: names/,            # Required. Value must point to a directory containing the raw data inside workspace
-        labels_path: labels/,         # Required. Value must point to a directory containing labels for the data
+        data_path: {type: directory, default: data},            # Required. Value must point to a directory containing the raw data inside workspace
+        labels_path: {type: directory, default: data},         # Required. Value must point to a directory containing labels for the data
         parameters_file: parameters.yaml # Required. Value must be `parameters.yaml`
       }
       outputs: {
-        output_path: data/               # Required. Indicates where to store the transformed data. Must contain transformed data and labels
+        output_path: prepped_data/               # Required. Indicates where to store the transformed data. Must contain transformed data and labels
       }
   sanity_check:
   # This task ensures that the previously transformed data was transformed correctly.
@@ -33,7 +33,7 @@ tasks:
   # tests is determined by the cube author.
     parameters:
       inputs: {
-        data_path: data/,                # Required. Value should be the output of the prepare task
+        data_path: {type: directory, default: prepped_data},                # Required. Value should be the output of the prepare task
         parameters_file: parameters.yaml # Required. Value must be `parameters.yaml`
       }
   statistics:
@@ -41,7 +41,7 @@ tasks:
   # idea of what is contained inside the data, without providing any specifics of any single entry
     parameters:
       inputs: {
-        data_path: data/,                # Required. Value should be the output of the prepare task
+        data_path: {type: directory, default: prepped_data},                # Required. Value should be the output of the prepare task
         parameters_file: parameters.yaml # Required. Value must be `parameters.yaml`
       }
       outputs: {
