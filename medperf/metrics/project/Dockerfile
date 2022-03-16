@@ -6,8 +6,6 @@ RUN pip install --upgrade pip
 
 RUN pip install pandas synapseclient nibabel
 
-COPY Hausdorff95 /work/CaPTk/bin/.
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
@@ -17,6 +15,11 @@ RUN apt-get update && \
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
 RUN apt-get install python3.8 python3-pip -y
+
+RUN cd /work/CaPTk/bin/ && \
+    wget https://captk.projects.nitrc.org/Hausdorff95_linux.zip && \
+    unzip Hausdorff95_linux.zip && \
+    rm Hausdorff95_linux.zip
 
 COPY ./requirements.txt project/requirements.txt 
 
