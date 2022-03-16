@@ -8,7 +8,7 @@ RUN apt-get update && \
     curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install ffmpeg libsm6 libxext6 -y
+RUN apt-get install libgl1-mesa-glx -y
 
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
