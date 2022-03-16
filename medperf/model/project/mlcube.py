@@ -40,7 +40,7 @@ def infer(
     """
     copy_tree(data_path, out_path) # FeTS_CLI writes the output in the same path as data_path
 
-    arch_to_consider = "deepmedic"
+    arch_to_consider = "deepscan"
     cmd = f"FeTS_CLI -a {arch_to_consider} -g 1 -t 0 -d {out_path}"
     exec_python(cmd)
 
