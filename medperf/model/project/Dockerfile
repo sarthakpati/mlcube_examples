@@ -39,4 +39,6 @@ COPY . /project
 
 WORKDIR /project
 
+RUN pip install -r requirements.txt
+
 ENTRYPOINT ["python3", "mlcube.py"]
