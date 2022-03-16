@@ -8,6 +8,8 @@ RUN apt-get update && \
     curl && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install ffmpeg libsm6 libxext6 -y
+
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
 RUN apt-get install python3 -y
@@ -29,9 +31,9 @@ RUN wget https://fets.projects.nitrc.org/FeTS_${FETS_VERSION}_Installer.bin && c
 
 RUN yes | ./FeTS_${FETS_VERSION}_Installer.bin --target /usr/local/fets_installation
 
-RUN export LD_LIBRARY_PATH=/usr/local/fets_installation/squashfs-root/usr/lib:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/fets_installation/squashfs-root/usr/lib:$LD_LIBRARY_PATH
 
-RUN export PATH=/usr/local/fets_installation/squashfs-root/usr/bin:$PATH
+ENV PATH=/usr/local/fets_installation/squashfs-root/usr/bin:$PATH
 
 ENV LANG C.UTF-8
 
