@@ -35,7 +35,7 @@ def evaluate(
     labels_csv = os.path.join(labels, "labels.csv")
     preds_csv = os.path.join(predictions, "predictions.csv")
 
-    cmd = f"python3 app.py --labels_csv={labels_csv} --preds_csv={preds_csv} --parameters_file={parameters_file} --output_file={output_path}"
+    cmd = f"python3 app.py --data_path={labels_csv} --preds_dir={preds_csv} --output_file={output_path}"
     exec_python(cmd)
 
 
