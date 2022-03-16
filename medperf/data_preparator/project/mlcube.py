@@ -39,7 +39,7 @@ def prepare(
         params_file (str): Location of the parameters.yaml file. Required for Medperf Data Preparation MLCubes.
         out_path (str): Location to store transformed data. Required for Medperf Data Preparation MLCubes.
     """
-    cmd = f"python3 prepare.py --names_path={data_path} --labels_path={labels_path} --out={out_path}"
+    cmd = f"python3 prepare.py --input_dir={data_path} --out={out_path}"
     exec_python(cmd)
 
 @app.command("sanity_check")
