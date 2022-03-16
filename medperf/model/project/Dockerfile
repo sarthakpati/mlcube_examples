@@ -8,8 +8,6 @@ RUN apt-get update && \
     curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install libgl1-mesa-glx -y
-
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
 RUN apt-get install python3 -y
@@ -24,6 +22,8 @@ RUN apt-get install -y --no-install-recommends \
     unzip
 
 RUN apt-get install python3-pip -y
+
+RUN pip3 install opencv-python-headless==4.5.3.56
 
 ARG FETS_VERSION=0.0.7
 
