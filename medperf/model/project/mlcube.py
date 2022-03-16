@@ -40,7 +40,7 @@ def infer(
     """
     copy_tree(data_path, out_path) # FeTS_CLI writes the output in the same path as data_path
 
-    cmd = f"FeTS_CLI -a deepMedic -g 1 -t 0 -d={out_path}"
+    cmd = f"FeTS_CLI -a deepMedic -g 1 -t 0 -d " + out_path
     exec_python(cmd)
 
     expected_string_ending = "_deepmedic_seg.nii.gz"
