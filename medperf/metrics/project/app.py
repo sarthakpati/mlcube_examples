@@ -1,6 +1,7 @@
 # Code adapted from https://github.com/Sage-Bionetworks-Challenges/brats-dream-challenge-infra/blob/main/Docker/score.py
 
-import argparse, os
+import argparse
+import yaml
 import os
 import subprocess
 import argparse
@@ -102,7 +103,10 @@ def main():
     # Load all files
     results = score(args.data_path, os.listdir(args.preds_dir))
 
-    results.to_csv(args.output_file)
+    results_dict = results.to_dict(orient="subject_id")
+
+    with open(args.output_file, "w") as f:
+        yaml.dump(results_dict, f)
 
 
 if __name__ == "__main__":
