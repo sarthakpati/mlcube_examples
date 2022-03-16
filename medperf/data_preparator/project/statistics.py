@@ -1,9 +1,28 @@
 import os
 import yaml
 import argparse
-import pandas as pd
 
-def get_statistics(names_df: pd.DataFrame) -> dict:
+def check_subject_validity(subject_dir):
+    """Checks if a subject folder is valid.
+
+    Args:
+        subject_dir (str): The subject folder.
+
+    Returns:
+        bool: True if the subject folder is valid, False otherwise.
+    """
+    subject_valid = True
+    strings_to_check = ["_t1.nii.gz", "_t1ce.nii.gz", "_t2.nii.gz", "_flair.nii.gz"]
+
+    for string in strings_to_check:
+        if not os.path.isfile(os.path.join(subject_dir, os.path.basename(subject_dir) + string)):
+            subject_valid = False
+            break
+    
+    return subject_valid
+            
+
+def get_statistics(data_path: str) -> dict:
     """Computes statistics about the data. This statistics are uploaded
     to the Medperf platform under the data owner's approval. Include
     every statistic you consider useful for determining the nature of the
@@ -11,28 +30,29 @@ def get_statistics(names_df: pd.DataFrame) -> dict:
     possible.
 
     Args:
-        names_df (pd.DataFrame): DataFrame containing the prepared dataset
+        data_path (str): The input data folder.
 
     Returns:
         dict: dictionary with all the computed statistics
     """
-    fname_len = names_df["First Name"].str.len()
-    lname_len = names_df["Last Name"].str.len()
+    all_files = os.listdir(data_path)
 
+    number_valid_subjects, number_of_invalid_subjects = 0, 0
+
+    for folders in all_files:
+        current_subject = os.path.join(data_path, folders)
+        if os.path.isdir(current_subject):
+
+            if check_subject_validity(current_subject):
+                number_valid_subjects += 1
+            else:
+                number_of_invalid_subjects += 1
+            
+            ## this can be expanded to get more information about the data, such as the number labels in each segmentation, and so on.
+                
     stats = {
-        "First Name": {
-            "length mean": float(fname_len.mean()),
-            "length std": float(fname_len.std()),
-            "length min": int(fname_len.min()),
-            "length max": int(fname_len.max())
-        },
-        "Last Name": {
-            "length mean": float(lname_len.mean()),
-            "length std": float(lname_len.std()),
-            "length min": int(lname_len.min()),
-            "length max": int(lname_len.max())
-        },
-        "size": len(names_df)
+        "Valid_Subjects": number_valid_subjects,
+        "Invalid_Subjects": number_of_invalid_subjects
     }
 
     return stats
@@ -44,10 +64,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    namesfile = os.path.join(args.data, "names.csv")
-    names_df = pd.read_csv(namesfile)
-
-    stats = get_statistics(names_df)
+    stats = get_statistics(args.data)
 
     with open(args.out_file, "w") as f:
         yaml.dump(stats, f)
