@@ -7,8 +7,7 @@
 # Here, we show a way that requires minimal intrusion to the original code,
 # By running the application through subprocesses. 
 
-import os
-import yaml
+import os, shutil
 import typer
 import subprocess
 
@@ -43,6 +42,20 @@ def infer(
 
     cmd = f"FeTS_CLI -a deepMedic -g 1 -t 0 -d={out_path}"
     exec_python(cmd)
+
+    expected_string_ending = "_deepmedic_seg.nii.gz"
+
+    for subs in os.listdir(out_path):
+        current_subject = os.path.join(out_path, subs)
+        expected_output = os.path.join(current_subject, subs + expected_string_ending)
+
+        if os.path.isdir(current_subject):
+            if not os.path.exists(expected_output):
+                current_subject_qc_dir = os.path.join(current_subject, "SegmentationsForQC")
+                if os.path.isdir(current_subject_qc_dir):
+                    expected_qc_output = os.path.join(current_subject_qc_dir, subs + expected_string_ending)
+                    if os.path.exists(expected_qc_output):
+                        shutil.copy(expected_qc_output, expected_output)
 
 @app.command("hotfix")
 def hotfix():
