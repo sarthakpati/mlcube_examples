@@ -8,7 +8,7 @@ platform:
 
 docker:
   # Image name.
-  image: mlcommons/hello-world-metrics
+  image: cbica/captk:release-1.8.1
   # Docker build context relative to $MLCUBE_ROOT. Default is `build`.
   build_context: "../project"
   # Docker file name within docker build context, default is `Dockerfile`.
@@ -23,8 +23,8 @@ tasks:
   # Executes a number of metrics specified by the params file
     parameters:
       inputs: {
-        predictions: predictions,                            # Required. Where to find the predictions. MUST be a folder
-        labels: labels,                                      # Required. Where to find the labels. MUST be a folder
+        predictions: {type: directory, default: predictions},                            # Required. Where to find the predictions. MUST be a folder
+        labels: {type: directory, default: prepped_data},                                      # Required. Where to find the labels. MUST be a folder
         parameters_file: parameters.yaml                     # Required. Helper file to provide additional arguments. Value MUST be parameters.yaml
         # If you need any additional files that should 
         # not be included inside the mlcube image, 
