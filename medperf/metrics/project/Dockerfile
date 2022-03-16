@@ -1,5 +1,12 @@
-FROM ubuntu:18.04
-MAINTAINER MLPerf MLBox Working Group
+FROM cbica/captk:release-1.8.1
+
+RUN yum install -y xz-devel
+
+RUN pip install --upgrade pip
+
+RUN pip install pandas synapseclient nibabel
+
+COPY Hausdorff95 /work/CaPTk/bin/.
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
