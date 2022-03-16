@@ -10,6 +10,8 @@ RUN apt-get update && \
 
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 
+RUN apt-get install libglu1 libglew-dev -y
+
 RUN apt-get install python3 -y
 
 RUN apt-get install -y --no-install-recommends \ 
@@ -22,8 +24,6 @@ RUN apt-get install -y --no-install-recommends \
     unzip
 
 RUN apt-get install python3-pip -y
-
-RUN pip3 install opencv-python-headless==4.5.3.56
 
 ARG FETS_VERSION=0.0.7
 
