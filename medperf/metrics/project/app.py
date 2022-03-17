@@ -103,7 +103,7 @@ def main():
     # Load all files
     results = score(args.data_path, os.listdir(args.preds_dir))
 
-    results_dict = results.to_dict(orient="subject_id")
+    results_dict = results.to_dict(orient="index")
 
     with open(args.output_file, "w") as f:
         yaml.dump(results_dict, f)
