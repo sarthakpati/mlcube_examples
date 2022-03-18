@@ -32,10 +32,7 @@ def evaluate(
     parameters_file: str = typer.Option(..., "--parameters_file"),
     output_path: str = typer.Option(..., "--output_path"),
 ):
-    labels_csv = os.path.join(labels, "labels.csv")
-    preds_csv = os.path.join(predictions, "predictions.csv")
-
-    cmd = f"python3 app.py --data_path={labels_csv} --preds_dir={preds_csv} --output_file={output_path}"
+    cmd = f"python3 app.py --data_path={labels} --preds_dir={predictions} --output_file={output_path}"
     exec_python(cmd)
 
 
