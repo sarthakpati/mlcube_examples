@@ -4,6 +4,7 @@ MAINTAINER MLPerf MLBox Working Group
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     software-properties-common \
+    ffmpeg libsm6 libxext6 \
     python3-dev \
     curl && \
     rm -rf /var/lib/apt/lists/*

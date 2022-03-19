@@ -53,6 +53,14 @@ def infer(
         if os.path.isdir(current_subject):
             if not os.path.exists(expected_output):
                 current_subject_qc_dir = os.path.join(current_subject, "SegmentationsForQC")
+                
+                # sanity check case where the GT is somehow moved from the expected location
+                gt_file = os.path.join(current_subject, subs + "_seg.nii.gz")
+                gt_debug_file = os.path.join(current_subject_qc_dir, subs + "_seg.nii.gz")
+                if os.path.isfile(gt_debug_file):
+                    shutil.copy(gt_debug_file, gt_file)
+                    os.remove(gt_debug_file)
+                
                 if os.path.isdir(current_subject_qc_dir):
                     expected_qc_output = os.path.join(current_subject_qc_dir, subs + expected_string_ending)
                     if os.path.exists(expected_qc_output):
