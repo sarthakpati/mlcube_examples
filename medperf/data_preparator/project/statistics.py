@@ -2,25 +2,7 @@ import os
 import yaml
 import argparse
 
-def check_subject_validity(subject_dir):
-    """Checks if a subject folder is valid.
-
-    Args:
-        subject_dir (str): The subject folder.
-
-    Returns:
-        bool: True if the subject folder is valid, False otherwise.
-    """
-    subject_valid = True
-    strings_to_check = ["_t1.nii.gz", "_t1ce.nii.gz", "_t2.nii.gz", "_flair.nii.gz", "_seg.nii.gz"]
-
-    for string in strings_to_check:
-        if not os.path.isfile(os.path.join(subject_dir, os.path.basename(subject_dir) + string)):
-            subject_valid = False
-            break
-    
-    return subject_valid
-            
+from .sanity_check import check_subject_validity            
 
 def get_statistics(data_path: str) -> dict:
     """Computes statistics about the data. This statistics are uploaded
