@@ -44,27 +44,19 @@ def infer(
     cmd = f"FeTS_CLI -a {arch_to_consider} -g 1 -t 0 -d {out_path}"
     exec_python(cmd)
 
-    expected_string_ending = f"_{arch_to_consider}_seg.nii.gz"
-
     for subs in os.listdir(out_path):
         current_subject = os.path.join(out_path, subs)
-        expected_output = os.path.join(current_subject, subs + expected_string_ending)
 
         if os.path.isdir(current_subject):
-            if not os.path.exists(expected_output):
-                current_subject_qc_dir = os.path.join(current_subject, "SegmentationsForQC")
-                
-                # sanity check case where the GT is somehow moved from the expected location
-                gt_file = os.path.join(current_subject, subs + "_seg.nii.gz")
-                gt_debug_file = os.path.join(current_subject_qc_dir, subs + "_seg.nii.gz")
-                if os.path.isfile(gt_debug_file):
-                    shutil.copy(gt_debug_file, gt_file)
-                    os.remove(gt_debug_file)
-                
-                if os.path.isdir(current_subject_qc_dir):
-                    expected_qc_output = os.path.join(current_subject_qc_dir, subs + expected_string_ending)
-                    if os.path.exists(expected_qc_output):
-                        shutil.copy(expected_qc_output, expected_output)
+            current_subject_qc_dir = os.path.join(current_subject, "SegmentationsForQC")
+            if os.path.exists(current_subject_qc_dir):
+                all_qc_files = os.listdir(current_subject_qc_dir)
+                for qc_file in all_qc_files:
+                    full_file = os.path.join(current_subject_qc_dir, qc_file)
+                    if qc_file.endswith("_seg.nii.gz"):
+                        expected_file = os.path.join(current_subject, qc_file)
+                        shutil.move(full_file, expected_file)
+
 
 @app.command("hotfix")
 def hotfix():
