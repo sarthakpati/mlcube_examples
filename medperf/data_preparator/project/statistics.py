@@ -2,7 +2,7 @@ import os
 import yaml
 import argparse
 
-from .sanity_check import check_subject_validity            
+from sanity_check import check_subject_validity            
 
 def get_statistics(data_path: str) -> dict:
     """Computes statistics about the data. This statistics are uploaded
