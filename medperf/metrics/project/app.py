@@ -49,6 +49,7 @@ def extract_metrics(tmp, subject_id):
 def score(parent, preds_dir, model_name, tmp_output="tmp.csv") -> pd.DataFrame:
     """Compute and return scores for each scan."""
     scores = []
+    pred_lst = os.listdir(preds_dir)
     for subject_id in preds_dir:
         gold = os.path.join(parent, subject_id, subject_id + "_seg.nii.gz")
         pred = os.path.join(preds_dir, subject_id, subject_id + "_" + model_name + "_seg.nii.gz")
