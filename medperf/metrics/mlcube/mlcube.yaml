@@ -29,7 +29,6 @@ tasks:
         # If you need any additional files that should 
         # not be included inside the mlcube image, 
         # add them inside `additional_files` folder
-        model_name: {type: string, default: "deepmedic"} # Required: name of the model to score
         }
       outputs: {
         output_path: {type: "file", default: "results.yaml"} # Required. Where to write the metrics results. Value MUST be results.yaml

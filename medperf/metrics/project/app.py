@@ -90,13 +90,13 @@ def main():
         type=str,
         required=True,
         help="Folder containing the data and ground truth",
-    )
+    )  
     parser.add_argument(
-        "--model_name",
-        "--model-name",
+        "--parameters_file",
+        "--parameters-file",
         type=str,
         required=True,
-        help="file to store metrics results as YAML",
+        help="File containing parameters for evaluation",
     )
     parser.add_argument(
         "--output_file",
@@ -108,7 +108,13 @@ def main():
     args = parser.parse_args()
 
     # Load all files
-    results = score(args.data_path, args.preds_dir, args.model_name.lower())
+    with open(args.parameters_file, "r") as f:
+        params = yaml.full_load(f)
+
+    if "model_name" not in params:
+        params["model_name"] = "deepmedic"
+    
+    results = score(args.data_path, args.preds_dir, params["model_name"].lower())
 
     results_dict = results.to_dict(orient="index")
 
