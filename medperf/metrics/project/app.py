@@ -46,12 +46,12 @@ def extract_metrics(tmp, subject_id):
     return res
 
 
-def score(parent, pred_lst, tmp_output="tmp.csv") -> pd.DataFrame:
+def score(parent, preds_dir, model_name, tmp_output="tmp.csv") -> pd.DataFrame:
     """Compute and return scores for each scan."""
     scores = []
-    for pred in pred_lst:
-        subject_id = pred.replace(".nii.gz", "")
+    for subject_id in preds_dir:
         gold = os.path.join(parent, subject_id, subject_id + "_seg.nii.gz")
+        pred = os.path.join(preds_dir, subject_id, subject_id + "_" + model_name + "_seg.nii.gz")
         try:
             run_captk(pred, gold, tmp_output)
             scan_scores = extract_metrics(tmp_output, subject_id)
@@ -92,6 +92,13 @@ def main():
         help="Folder containing the data and ground truth",
     )
     parser.add_argument(
+        "--model_name",
+        "--model-name",
+        type=str,
+        required=True,
+        help="file to store metrics results as YAML",
+    )
+    parser.add_argument(
         "--output_file",
         "--output-file",
         type=str,
@@ -101,7 +108,7 @@ def main():
     args = parser.parse_args()
 
     # Load all files
-    results = score(args.data_path, os.listdir(args.preds_dir))
+    results = score(args.data_path, args.preds_dir, args.model_name.lower())
 
     results_dict = results.to_dict(orient="index")
 
