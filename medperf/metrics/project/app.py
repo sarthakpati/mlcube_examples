@@ -47,12 +47,19 @@ def extract_metrics(tmp, subject_id):
     return res
 
 
-def score(parent, preds_dir, model_name, tmp_output="tmp.csv") -> pd.DataFrame:
+def score(parent, preds_dir, tmp_output="tmp.csv") -> pd.DataFrame:
     """Compute and return scores for each scan."""
+    # Load all files
+    with open(os.path.join(preds_dir,"config.yaml"), "r") as f:
+        params = yaml.full_load(f)
+    
+    if "model_name" not in params:
+        sys.exit("'model_name' not found in config file in {}".format(preds_dir))
+    
     scores = []
     for subject_id in os.listdir(preds_dir):
         gold = os.path.join(parent, subject_id, subject_id + "_seg.nii.gz")
-        pred = os.path.join(preds_dir, subject_id, subject_id + "_" + model_name + "_seg.nii.gz")
+        pred = os.path.join(preds_dir, subject_id, subject_id + "_" + params["model_name"].lower() + "_seg.nii.gz")
         try:
             run_captk(pred, gold, tmp_output)
             scan_scores = extract_metrics(tmp_output, subject_id)
@@ -91,13 +98,6 @@ def main():
         type=str,
         required=True,
         help="Folder containing the data and ground truth",
-    )  
-    parser.add_argument(
-        "--parameters_file",
-        "--parameters-file",
-        type=str,
-        required=True,
-        help="File containing parameters for evaluation",
     )
     parser.add_argument(
         "--output_file",
@@ -108,14 +108,7 @@ def main():
     )
     args = parser.parse_args()
 
-    # Load all files
-    with open(args.parameters_file, "r") as f:
-        params = yaml.full_load(f)
-
-    if "model_name" not in params:
-        sys.exit("'model_name' not found in parameters file")
-    
-    results = score(args.data_path, args.preds_dir, params["model_name"].lower())
+    results = score(args.data_path, args.preds_dir)
 
     results_dict = results.to_dict(orient="index")
 
