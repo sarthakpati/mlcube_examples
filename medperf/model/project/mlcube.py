@@ -44,6 +44,9 @@ def infer(
     cmd = f"FeTS_CLI -a {arch_to_consider} -g 1 -t 0 -d {out_path}"
     exec_python(cmd)
 
+    if os.path.isdir(os.path.join(out_path,"logs")):
+        shutil.rmtree(os.path.join(out_path,"logs"))
+
     for subs in os.listdir(out_path):
         current_subject = os.path.join(out_path, subs)
 
