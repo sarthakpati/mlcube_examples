@@ -1,5 +1,5 @@
 import os, pathlib
-import shutil
+from distutils.dir_util import copy_tree
 import argparse
 
 if __name__ == '__main__':
@@ -9,6 +9,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    pathlib.Path.mkdir(args.out, parents=True, exist_ok=True)
-
-    shutil.copytree(args.input, args.out)
+    copy_tree(args.input, args.out)
