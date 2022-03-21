@@ -5,6 +5,7 @@ import yaml
 import os
 import subprocess
 import argparse
+import sys
 
 import pandas as pd
 
@@ -112,7 +113,7 @@ def main():
         params = yaml.full_load(f)
 
     if "model_name" not in params:
-        params["model_name"] = "deepmedic"
+        sys.exit("'model_name' not found in parameters file")
     
     results = score(args.data_path, args.preds_dir, params["model_name"].lower())
 
