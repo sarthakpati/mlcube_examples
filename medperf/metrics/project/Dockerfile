@@ -11,6 +11,7 @@ RUN yum install python3.8 python3-pip -y
 RUN cd /work/CaPTk/bin/ && \
     curl https://captk.projects.nitrc.org/Hausdorff95_linux.zip --output Hausdorff95_linux.zip && \
     unzip -o Hausdorff95_linux.zip && \
+    chmod a+x Hausdorff95 && \
     rm Hausdorff95_linux.zip
 
 COPY ./requirements.txt project/requirements.txt 
