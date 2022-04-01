@@ -10,6 +10,7 @@
 import os, shutil
 import typer
 import subprocess
+import yaml
 
 from distutils.dir_util import copy_tree
 
@@ -43,6 +44,11 @@ def infer(
     arch_to_consider = "deepscan"
     cmd = f"FeTS_CLI -a {arch_to_consider} -g 1 -t 0 -d {out_path}"
     exec_python(cmd)
+    
+    config_to_write = {}
+    config_to_write["model_name"] = arch_to_consider
+    with open(os.path.join(out_path,"config.yaml"), "w") as f:
+        yaml.dump(config_to_write, f)
 
     if os.path.isdir(os.path.join(out_path,"logs")):
         shutil.rmtree(os.path.join(out_path,"logs"))
