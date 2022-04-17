@@ -1,4 +1,4 @@
-Repo with actual examples: https://github.com/mlcommons/medperf/tree/main/examples/BraTS
+Repo with actual examples: https://github.com/mlcommons/medperf/#pilots 
 
 # MLCube™ examples
 
